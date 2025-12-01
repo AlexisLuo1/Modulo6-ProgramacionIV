@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>{{ action }} libro</h2>
+  <form method="post">
+    <div class="mb-3">
+      <label class="form-label">Título</label>
+      <input name="titulo" class="form-control" value="{{ book.titulo if book else '' }}">
+    </div>
+    <div class="mb-3%">
+      <label class="form-label">Autor</label>
+      <input name="autor" class="form-control" value="{{ book.autor if book else '' }}">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Género</label>
+      <input name="genero" class="form-control" value="{{ book.genero if book else '' }}">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Estado de lectura</label>
+      <select name="estado" class="form-select">
+        <option value="Sin leer" {% if book and book.estado=='Sin leer' %}selected{% endif %}>Sin leer</option>
+        <option value="Leyendo" {% if book and book.estado=='Leyendo' %}selected{% endif %}>Leyendo</option>
+        <option value="Leído" {% if book and book.estado=='Leído' %}selected{% endif %}>Leído</option>
+      </select>
+    </div>
+    <button class="btn btn-success" type="submit">{{ action }}</button>
+    <a class="btn btn-secondary" href="{{ url_for('index') }}">Cancelar</a>
+  </form>
+{% endblock %}
