@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Libros</h1>
+    <form class="d-flex" method="get" action="{{ url_for('index') }}">
+      <input class="form-control me-2" name="q" placeholder="Buscar..." value="{{ q }}">
+      <select class="form-select me-2" name="field">
+        <option value="titulo" {% if field=='titulo' %}selected{% endif %}>Título</option>
+        <option value="autor" {% if field=='autor' %}selected{% endif %}>Autor</option>
+        <option value="genero" {% if field=='genero' %}selected{% endif %}>Género</option>
+      </select>
+      <button class="btn btn-outline-light" type="submit">Buscar</button>
+    </form>
+  </div>
+
+  {% if books %}
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Género</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in books %}
+            <tr>
+              <td>{{ b.titulo }}</td>
+              <td>{{ b.autor }}</td>
+              <td>{{ b.genero }}</td>
+              <td>{{ b.estado }}</td>
+              <td>
+                <a class="btn btn-sm btn-primary" href="{{ url_for('editar', book_id=b.id) }}">Editar</a>
+                <form method="post" action="{{ url_for('eliminar', book_id=b.id) }}" style="display:inline-block;" onsubmit="return confirm('¿Eliminar este libro?');">
+                  <button class="btn btn-sm btn-danger" type="submit">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>No hay libros registrados.</p>
+  {% endif %}
+{% endblock %}
